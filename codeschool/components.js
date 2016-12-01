@@ -7,7 +7,7 @@ class Comment extends React.Component {
           {this.props.body}
         </p>
         <div className="comment-footer">
-          <a href={this.props.key} className="comment-footer-delete">
+          <a href="#" className="comment-footer-delete">
             Delete comment
           </a>
         </div>
