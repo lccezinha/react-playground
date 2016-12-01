@@ -1,33 +1,13 @@
-// class StoryBox extends React.Component {
-//   render() {
-//     var time = new Date();
-//     var languages = ['HTML', 'Golang', 'Ruby', 'JavaScript'];
-//
-//     return(
-//       <div>
-//         <h3>Stories App</h3>
-//         <p className="lead">Something else</p>
-//         <p>Current Time: {time.toTimeString()}</p>
-//         <ul>{languages.map( language => <li>{language}</li>)}</ul>
-//       </div>
-//     )
-//   }
-// }
-//
-// ReactDOM.render(
-//   <StoryBox />, document.getElementById('story-app')
-// );
-
 class Comment extends React.Component {
   render() {
     return(
       <div className="comment">
         <p className="comment-header">{this.props.author}</p>
         <p className="comment-body">
-          {this.props.comment}
+          {this.props.body}
         </p>
         <div className="comment-footer">
-          <a href="#" className="comment-footer-delete">
+          <a href={this.props.key} className="comment-footer-delete">
             Delete comment
           </a>
         </div>
@@ -38,16 +18,37 @@ class Comment extends React.Component {
 
 class CommentBox extends React.Component {
   render() {
+    var comments = this._getComments();
+
     return(
       <div className="comment-box">
-        <h3>Comments</h3>
-        <h4 className="comment-count">2 comments</h4>
+        <h4 className="comment-count">{this._getCommentsTitle(comments.length)}</h4>
         <div className="comment-list">
-          <Comment author="Luiz Cezer" comment="Some comment" />
-          <Comment author="Cezer Luiz" comment="Another comment" />
+          {comments}
         </div>
       </div>
     );
+  }
+
+  _getComments() {
+    var commentList = [
+      { id: 1, author: 'Luiz Cezer', body: 'Some comment' },
+      { id: 2, author: 'Cezer Luiz', body: 'Some commentssssssssssssssssss' }
+    ];
+
+    return commentList.map((comment) => {
+      return (<Comment author={comment.author} body={comment.body} key={comment.id} />)
+    });
+  }
+
+  _getCommentsTitle(commentsCount) {
+    if (commentsCount == 0) {
+      return 'No comments';
+    } else if (commentsCount == 1) {
+      return '1 Comment';
+    } else if (commentsCount > 1) {
+      return `${commentsCount} Comments`;
+    }
   }
 }
 
