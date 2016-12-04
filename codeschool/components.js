@@ -17,17 +17,38 @@ class Comment extends React.Component {
 }
 
 class CommentBox extends React.Component {
+
+  constructor() {
+    super();
+
+    this.state = {
+      showComments: false
+    };
+  }
+
   render() {
+    var buttonText = 'Show comments';
     var comments = this._getComments();
+    var commentsList;
+
+    if (this.state.showComments) {
+      commentsList = <div className="comment-list">{comments}</div>;
+      buttonText = 'Hide comments';
+    }
 
     return(
       <div className="comment-box">
         <h4 className="comment-count">{this._getCommentsTitle(comments.length)}</h4>
-        <div className="comment-list">
-          {comments}
-        </div>
+        <button onClick={this._handleClick.bind(this)}>{buttonText}</button>
+        {commentsList}
       </div>
     );
+  }
+
+  _handleClick() {
+    this.setState({
+      showComments: !this.state.showComments
+    });
   }
 
   _getComments() {
