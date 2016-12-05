@@ -38,6 +38,9 @@ class CommentForm extends React.Component {
     var body = this._body;
 
     this.props.addComment(author.value, body.value);
+
+    author.value = '';
+    body.value = '';
   }
 }
 
