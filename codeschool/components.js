@@ -51,11 +51,23 @@ class CommentBox extends React.Component {
 
     this.state = {
       showComments: false,
-      comments: [
-        { id: 1, author: 'Luiz Cezer', body: 'Some comment' },
-        { id: 2, author: 'Cezer Luiz', body: 'Some commentssssssssssssssssss' }
-      ]
+      comments: []
     };
+  }
+
+  componentWillMount() {
+    this._fetchComments();
+  }
+
+  componentDidMount() {
+    this._timer = setInterval(
+      () => this._fetchComments(),
+      5000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this._timer);
   }
 
   render() {
@@ -77,6 +89,17 @@ class CommentBox extends React.Component {
         {commentsList}
       </div>
     );
+  }
+
+  _fetchComments() {
+    console.log('_fetchComments');
+    jQuery.ajax({
+      method: 'GET',
+      url: 'http://localhost:8001/comments',
+      success: (comments) => {
+        this.setState({ comments })
+      }
+    });
   }
 
   _addComment(author, body) {
