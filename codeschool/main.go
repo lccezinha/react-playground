@@ -7,9 +7,9 @@ import (
 )
 
 type comment struct {
-	Id   int    `json:"id"`
-	Name string `json:"name"`
-	Body string `json:"body"`
+	Id     int    `json:"id"`
+	Author string `json:"author"`
+	Body   string `json:"body"`
 }
 
 type comments []comment
@@ -21,13 +21,14 @@ func buildComments() comments {
 	}
 }
 
-func getComments(response http.ResponseWriter, request *http.Request) {
-	response.Header().Set("Content-Type", "application/json")
-	response.WriteHeader(http.StatusOK)
+func getComments(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 
 	comments := buildComments()
 
-	if err := json.NewEncoder(response).Encode(comments); err != nil {
+	if err := json.NewEncoder(w).Encode(comments); err != nil {
 		panic(err)
 	}
 }
@@ -36,5 +37,5 @@ func main() {
 	http.HandleFunc("/comments", getComments)
 
 	log.Println("Server running...")
-	log.Fatal(http.ListenAndServe(":8000", nil))
+	log.Fatal(http.ListenAndServe(":8001", nil))
 }
