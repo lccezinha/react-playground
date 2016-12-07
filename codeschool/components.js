@@ -2,17 +2,24 @@ class Comment extends React.Component {
   render() {
     return(
       <div className="comment">
-        <p className="comment-header">{this.props.author}</p>
+        <p className="comment-header">{this.props.comment.author}</p>
         <p className="comment-body">
-          {this.props.body}
+          {this.props.comment.body}
         </p>
         <div className="comment-footer">
-          <a href="#" className="comment-footer-delete">
+          <a href="#" className="comment-footer-delete" onClick={this._handleDelete.bind(this)}>
             Delete comment
           </a>
         </div>
       </div>
     );
+  }
+
+  _handleDelete(event) {
+    event.preventDefault();
+    if (confirm('Delete ?')) {
+      this.props.onDelete(this.props.comment);
+    }
   }
 }
 
@@ -91,6 +98,16 @@ class CommentBox extends React.Component {
     );
   }
 
+  _addComment(author, body) {
+    var comment = {
+      id: this.state.comments.length + 1,
+      author,
+      body
+    };
+
+    this.setState({ comments: this.state.comments.concat([comment]) });
+  }
+
   _fetchComments() {
     console.log('_fetchComments');
     jQuery.ajax({
@@ -102,14 +119,17 @@ class CommentBox extends React.Component {
     });
   }
 
-  _addComment(author, body) {
-    var comment = {
-      id: this.state.comments.length + 1,
-      author,
-      body
-    };
+  _deleteComment(comment) {
+    jQuery.ajax({
+      method: 'DELETE',
+      url: `http://localhost:8001/comments/${comment.id}`
+    })
 
-    this.setState({ comments: this.state.comments.concat([comment]) });
+    var comments = [...this.state.comments];
+    var commentIndex = comments.indexOf(comment);
+    comments.splice(commentIndex, 1);
+
+    this.setState({ comments });
   }
 
   _handleClick() {
@@ -120,7 +140,12 @@ class CommentBox extends React.Component {
 
   _getComments() {
     return this.state.comments.map((comment) => {
-      return (<Comment author={comment.author} body={comment.body} key={comment.id} />)
+      return (
+        <Comment
+          key={comment.id}
+          comment={comment}
+          onDelete={this._deleteComment.bind(this)} />
+      );
     });
   }
 
