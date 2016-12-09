@@ -10,18 +10,25 @@ import (
 
 var InvalidHTTPMethod = errors.New("Invalid HTTP Method for delete")
 
-type comment struct {
+type Comment struct {
 	Id     int    `json:"id"`
 	Author string `json:"author"`
 	Body   string `json:"body"`
 }
 
-type Comments []comment
+type Comments []Comment
 
 var comments Comments
 
-func init() {
-	comments = append(comments, comment{1, "Luiz Cezer", "Some comment"}, comment{2, "Cezer Luiz", "Another comment"})
+// func init() {
+// 	comments = append(comments, comment{1, "Luiz Cezer", "Some comment"}, comment{2, "Cezer Luiz", "Another comment"})
+// }
+
+var currentId int
+
+func generateId() int {
+	currentId += 1
+	return currentId
 }
 
 func indexComments(w http.ResponseWriter, r *http.Request) {
@@ -52,9 +59,27 @@ func destroyComment(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func createComment(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		panic(InvalidHTTPMethod)
+	}
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.WriteHeader(http.StatusCreated)
+
+	r.ParseForm()
+
+	comment := Comment{}
+	comment.Id = generateId()
+	comment.Author = r.PostFormValue("author")
+	comment.Body = r.PostFormValue("body")
+
+	comments = append(comments, comment)
+}
+
 func main() {
 	http.HandleFunc("/comments", indexComments)
 	http.HandleFunc("/comments/delete", destroyComment)
+	http.HandleFunc("/comments/create", createComment)
 
 	log.Println("Server running...")
 	log.Fatal(http.ListenAndServe(":8001", nil))
