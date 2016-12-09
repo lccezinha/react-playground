@@ -99,17 +99,19 @@ class CommentBox extends React.Component {
   }
 
   _addComment(author, body) {
-    var comment = {
-      id: this.state.comments.length + 1,
-      author,
-      body
-    };
+    var comment = { author, body };
 
-    this.setState({ comments: this.state.comments.concat([comment]) });
+    jQuery.ajax({
+      method: 'POST',
+      url: 'http://localhost:8001/comments/create',
+      data: comment,
+      success: (newComment) => {
+        this.setState({ comments: this.state.comments.concat([newComment]) });
+      }
+    });
   }
 
   _fetchComments() {
-    console.log('_fetchComments');
     jQuery.ajax({
       method: 'GET',
       url: 'http://localhost:8001/comments',
