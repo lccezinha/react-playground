@@ -44,15 +44,49 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(1)
+	'use strict';
 
+	var _person = __webpack_require__(1);
+
+	var _person2 = _interopRequireDefault(_person);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var person = new _person2.default('Cezer');
+	console.log(person.toString());
 
 /***/ },
 /* 1 */
 /***/ function(module, exports) {
 
-	console.log('Am I loaded?')
+	"use strict";
 
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Person = function () {
+	  function Person(name) {
+	    _classCallCheck(this, Person);
+
+	    this.name = name;
+	  }
+
+	  _createClass(Person, [{
+	    key: "toString",
+	    value: function toString() {
+	      return "Person: " + this.name;
+	    }
+	  }]);
+
+	  return Person;
+	}();
+
+	exports.default = Person;
 
 /***/ }
 /******/ ]);
