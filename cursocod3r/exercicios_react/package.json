@@ -2,13 +2,8 @@
   "name": "exercicios_react",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "main": "webpack.config.js",
+  "dependencies": {},
   "devDependencies": {
     "babel-core": "^6.22.1",
     "babel-loader": "^6.2.10",
@@ -18,5 +13,11 @@
     "react-dom": "^15.4.2",
     "webpack": "^1.14.0",
     "webpack-dev-server": "^1.16.2"
-  }
+  },
+  "scripts": {
+    "dev": "webpack-dev-server --progress --colors --inline --hot"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

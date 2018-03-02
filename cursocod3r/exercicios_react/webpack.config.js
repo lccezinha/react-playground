@@ -1,6 +1,6 @@
 const webpack = require('webpack')
 
-module.export = {
+module.exports = {
   entry: './ex/index.jsx',
   output: {
     path: __dirname + '/public',
@@ -11,13 +11,13 @@ module.export = {
     contentBase: './public',
   },
   module: {
-    loaders: {
-      test: '/.jsx?$/',
+    loaders: [{
+      test: /.jsx?$/,
       loader: 'babel-loader',
-      exclude: '/node_modules/',
+      exclude: /node_modules/,
       query: {
-        presets: ['es2015', 'react']
+        presets: ['es2015', 'react'],
       }
-    }
+    }]
   }
 }
