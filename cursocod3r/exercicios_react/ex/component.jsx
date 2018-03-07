@@ -1,5 +1,5 @@
 import React from 'react'
 
-export default () => (
-  <h1>Primeiro Componente em "function" !!!</h1>  
+export default (props) => (
+  <h1>{props.text}</h1>
 )
