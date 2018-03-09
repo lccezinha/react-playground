@@ -1,5 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Component from './component'
+import Family from './family'
 
-ReactDOM.render(<Component text="Using Props as text"/>, document.getElementById('app'))
+ReactDOM.render(<Family />, document.getElementById('app'))
