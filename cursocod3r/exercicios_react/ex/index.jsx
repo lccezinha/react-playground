@@ -1,4 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import MyComponent from './classComponent'
 
-ReactDOM.render(,document.getElementById('app'))
+ReactDOM.render(<MyComponent value="Simple component!!!" />,document.getElementById('app'))
