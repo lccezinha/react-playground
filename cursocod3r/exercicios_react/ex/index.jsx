@@ -1,4 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import Field from './field'
 
-ReactDOM.render(,document.getElementById('app'))
+ReactDOM.render(<Field initialValue="What?"></Field>,document.getElementById('app'))
