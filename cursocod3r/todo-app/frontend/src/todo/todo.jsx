@@ -4,8 +4,13 @@ import TodoForm from './todoForm'
 import TodoList from './todoList'
 
 class Todo extends Component {
+  constructor(props) {
+    super(props)
+    this.handleAdd = this.handleAdd.bind(this)
+  }
+
   handleAdd() {
-    console.log('handleAdd works!')
+    console.log(this)
   }
 
   render() {
