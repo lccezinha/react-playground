@@ -16,14 +16,18 @@ class Todo extends Component {
     this.handleRemove = this.handleRemove.bind(this)
     this.handleMarkAsDone = this.handleMarkAsDone.bind(this)
     this.handleMarkAsUndone = this.handleMarkAsUndone.bind(this)
+    this.handleSearch = this.handleSearch.bind(this)
+    this.handleClear = this.handleClear.bind(this)
+
     this.handleChange = this.handleChange.bind(this)
 
     this.refresh()
   }
 
-  refresh() {
-    axios.get(`${URL}?sort=-createdAt`)
-      .then(response => this.setState({ ...this.state, description: '', list: response.data }))
+  refresh(description = '') {
+    const search = description ? `description__regex=/${description}/` : ''
+    axios.get(`${URL}?sort=-createdAt&${search}`)
+      .then(response => this.setState({ ...this.state, description, list: response.data }))
   }
 
   handleAdd() {
@@ -33,17 +37,25 @@ class Todo extends Component {
 
   handleRemove(todo) {
     axios.delete(`${URL}/${todo._id}`)
-      .then(response => this.refresh())
+      .then(response => this.refresh(this.state.description))
   }
 
   handleMarkAsDone(todo) {
     axios.put(`${URL}/${todo._id}`, { ...todo, done: true })
-      .then(response => this.refresh())
+      .then(response => this.refresh(this.state.description))
   }
 
   handleMarkAsUndone(todo) {
     axios.put(`${URL}/${todo._id}`, { ...todo, done: false })
-      .then(response => this.refresh())
+      .then(response => this.refresh(this.state.description))
+  }
+
+  handleSearch() {
+    this.refresh(this.state.description)
+  }
+
+  handleClear() {
+    this.refresh()
   }
 
   handleChange(event) {
@@ -57,7 +69,9 @@ class Todo extends Component {
         <TodoForm
           description={this.state.description}
           handleAdd={this.handleAdd}
-          handleChange={this.handleChange} />
+          handleChange={this.handleChange}
+          handleSearch={this.handleSearch}
+          handleClear={this.handleClear} />
         <TodoList
           list={this.state.list}
           handleRemove={this.handleRemove}
