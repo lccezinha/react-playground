@@ -15,7 +15,7 @@ class Field extends Component {
     return(
       <div>
         <label>{this.state.value}</label>
-        <input onChange={this.handleChange} value={this.state.value}></input>
+        <input onChange={this.handleChange} value={this.state.value} />
       </div>
     )
   }
