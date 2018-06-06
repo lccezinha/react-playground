@@ -20,14 +20,10 @@ export const add = (description) => {
   return dispatch => {
     axios.post(`${URL}`, { description })
       .then(
-        response => dispatch(
-          { type: 'TODO_ADDED', payload: response.data }
-        )
+        response => dispatch(clear())
       )
       .then(
-        response => dispatch(
-          search()
-        )
+        response => dispatch(search())
       )
   }
 }
@@ -41,9 +37,7 @@ export const markAsDone = (todo) => {
         )
       )
       .then(
-        response => dispatch(
-          search()
-        )
+        response => dispatch(search())
       )
   }
 }
@@ -57,9 +51,7 @@ export const markAsUndone = (todo) => {
         )
       )
       .then(
-        response => dispatch(
-          search()
-        )
+        response => dispatch(search())
       )
   }
 }
@@ -71,4 +63,8 @@ export const remove = (todo) => {
         response => dispatch(search())
       )
   }
+}
+
+export const clear = () => {
+  return { type: 'TODO_CLEAR' }
 }
