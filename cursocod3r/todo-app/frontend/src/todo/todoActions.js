@@ -31,3 +31,44 @@ export const add = (description) => {
       )
   }
 }
+
+export const markAsDone = (todo) => {
+  return dispatch => {
+    axios.put(`${URL}/${todo._id}`, { ...todo, done: true })
+      .then(
+        response => dispatch(
+          { type: 'TODO_MARKED_AS_DONE', payload: response.data }
+        )
+      )
+      .then(
+        response => dispatch(
+          search()
+        )
+      )
+  }
+}
+
+export const markAsUndone = (todo) => {
+  return dispatch => {
+    axios.put(`${URL}/${todo._id}`, { ...todo, done: false })
+      .then(
+        response => dispatch(
+          { type: 'TODO_MARKED_AS_UNDONE', payload: response.data }
+        )
+      )
+      .then(
+        response => dispatch(
+          search()
+        )
+      )
+  }
+}
+
+export const remove = (todo) => {
+  return dispatch => {
+    axios.delete(`${URL}/${todo._id}`)
+      .then(
+        response => dispatch(search())
+      )
+  }
+}
